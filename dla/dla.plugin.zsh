@@ -14,11 +14,12 @@ warning() {
 }
 
 docker_cleanup() {
-  info "Removing docker containers, volumes, images and build cache..."
+  info "Removing docker containers, volumes, images, networks and build cache..."
   docker stop $(docker ps -a -q) > /dev/null 2>&1
   docker rm -f -v $(docker ps -a -q) > /dev/null 2>&1
   docker volume prune -a -f > /dev/null 2>&1
   docker image rm -f $(docker images -q -a) > /dev/null 2>&1
+  docker network prune -f > /dev/null 2>&1
   docker builder prune -a -f > /dev/null 2>&1
   progress "Done."
 }
@@ -28,6 +29,8 @@ docker_list_all() {
   docker container ls -a
   warning "Volumes:"
   docker volume ls
+  warning "Networks:"
+  docker network ls
   warning "Images:"
   docker images -a
   warning "Disk usage:"

@@ -10,3 +10,4 @@ Some useful plugins for [OMZ](https://github.com/ohmyzsh/ohmyzsh).
 - grc
 - lsd
 - pe
+- fzf

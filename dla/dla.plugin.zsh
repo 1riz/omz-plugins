@@ -20,7 +20,8 @@ docker_cleanup() {
   docker volume prune -a -f > /dev/null 2>&1
   docker image rm -f $(docker images -q -a) > /dev/null 2>&1
   docker network prune -f > /dev/null 2>&1
-  docker builder prune -a -f > /dev/null 2>&1
+  docker buildx prune -a -f > /dev/null 2>&1
+  docker buildx history rm --all > /dev/null 2>&1
   progress "Done."
 }
 
@@ -32,9 +33,13 @@ docker_list_all() {
   warning "Networks:"
   docker network ls
   warning "Images:"
-  docker images -a
+  docker images -a --format table
   warning "Disk usage:"
   docker system df
+  warning "Builders:"
+  docker buildx ls
+  warning "Build records:"
+  docker buildx history ls
 }
 
 #
